@@ -1,19 +1,27 @@
 {
   "slug": "safe-pilot",
   "title": "Safe Pilot",
-  "tagline": "Steer into an asteroid storm and watch a live safety filter bend your path.",
+  "tagline": "Lead a glowing drone swarm through a rock storm. A safety filter slides every drone around danger while you chase combos.",
   "kind": "demo",
-  "tags": ["graphics", "simulation", "games"],
+  "tags": [
+    "graphics",
+    "simulation",
+    "games"
+  ],
   "date": "2026-10-10",
   "builtBy": "Virtual Company",
   "entry": "demo/index.html",
   "paper": {
     "title": "Convex Safety Filtering via Spectral Selection for Nonconvex Safe Sets",
     "arxiv": "2610.12324",
-    "authors": ["Juan Augusto Paredes Salazar", "James Usevitch", "Ankit Goel"]
+    "authors": [
+      "Juan Augusto Paredes Salazar",
+      "James Usevitch",
+      "Ankit Goel"
+    ]
   },
-  "novelty": "no known implementation (not verified); this demo fuses a simplified velocity safety filter with pointer-steered arcade flight.",
-  "description": "A self-contained browser flight game that makes a guardian filter visible as it redirects steering around drifting asteroids.",
-  "howItWorks": "The ship's desired velocity is projected through nearby obstacle half-space constraints using iterative projection. This illustrates safety filtering but does not implement the paper's spectral selection method or establish a real-world safety guarantee.",
-  "controls": "Drag or tap to steer; use WASD or arrow keys. Toggle Guardian ON/OFF to compare filtered and raw flight. When OFF, a collision ends the flight; tap to retry."
+  "novelty": "An arcade game whose core mechanic is a per-obstacle half-space velocity-projection safety filter (control-barrier style) made visible as glowing arcs; no known implementation (not verified).",
+  "description": "A neon arcade game: steer a swarm with your pointer, skim asteroids for near-miss combos, collect stars to grow the swarm, survive escalating waves.",
+  "howItWorks": "Each drone chases its formation slot, then its desired velocity is projected onto the safe half-space of every obstacle (relative velocity along the obstacle normal must be at least minus alpha times the clearance) plus arena walls, in a few Gauss-Seidel passes. The projection is the safety filter idea from the paper; the swarm and game are a toy, not the paper experiments.",
+  "controls": "Move the mouse or drag a finger to steer the swarm. Tap or press Space to start and restart."
 }

@@ -1,33 +1,138 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><meta name="theme-color" content="#071018">
-<title>SAFE PILOT — Clear the field</title>
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>Safe Pilot</title>
 <style>
-:root{color-scheme:dark;--ink:#e9f5f5;--muted:#8ba6ad;--cyan:#63f2df;--amber:#ffb957;--red:#ff5e73;--panel:#0a1822}*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#071018;color:var(--ink);font-family:system-ui,-apple-system,"Segoe UI",sans-serif}body{display:grid;place-items:center}.shell{position:relative;width:min(100vw,160vh);height:min(100vh,62.5vw);min-height:500px;max-height:100vh;background:radial-gradient(ellipse at 50% 45%,#102633 0,#091721 52%,#071018 100%);overflow:hidden}.top{position:absolute;z-index:2;left:clamp(18px,4vw,56px);right:clamp(18px,4vw,56px);top:clamp(18px,3.4vh,38px);display:flex;justify-content:space-between;align-items:flex-start;pointer-events:none}.brand{font-size:11px;font-weight:800;letter-spacing:.2em;color:var(--cyan)}h1{font-size:clamp(28px,4vw,54px);line-height:.98;letter-spacing:-.055em;margin:10px 0 8px;font-weight:700}.dek{margin:0;color:#a9c0c6;font-size:clamp(12px,1.2vw,15px);max-width:390px}.topright{display:flex;align-items:center;gap:10px;pointer-events:auto}.pill,.toggle{border:1px solid #28404c;border-radius:99px;background:#0b1922d9;color:#c8dce0;padding:10px 14px;font:700 10px system-ui;letter-spacing:.12em}.pill{color:var(--cyan)}button{cursor:pointer}.toggle{color:var(--ink);min-width:116px}.toggle:focus-visible,button:focus-visible{outline:2px solid var(--cyan);outline-offset:3px}.toggle b{color:var(--cyan)}canvas{position:absolute;inset:0;width:100%;height:100%;touch-action:none}.hud{position:absolute;z-index:2;left:clamp(18px,4vw,56px);bottom:clamp(20px,3.5vh,42px);display:flex;gap:clamp(16px,3vw,42px);align-items:end;pointer-events:none}.stat label{display:block;font-size:9px;letter-spacing:.17em;color:#78929a;margin-bottom:5px}.stat strong{font-variant-numeric:tabular-nums;font-size:clamp(18px,2vw,26px);letter-spacing:-.04em}.stat strong small{font-size:10px;color:#80999f;letter-spacing:.1em}.hint{position:absolute;z-index:2;right:clamp(18px,4vw,56px);bottom:clamp(22px,4vh,46px);text-align:right;color:#9eb3b9;font-size:11px;line-height:1.55;pointer-events:none}.hint em{font-style:normal;color:var(--cyan);font-weight:700}.science{position:absolute;z-index:2;right:clamp(18px,4vw,56px);top:108px;max-width:238px;padding:12px 14px;border:1px solid #203640;border-radius:12px;background:#09151dc9;color:#8ca5ac;font-size:10px;line-height:1.5}.science b{color:#d9e8e9;display:block;font-size:9px;letter-spacing:.12em;margin-bottom:3px}.toast{position:absolute;z-index:3;left:50%;top:50%;transform:translate(-50%,-50%);font-size:clamp(18px,3vw,34px);font-weight:800;letter-spacing:.16em;color:#fff;text-shadow:0 0 30px #63f2df;opacity:0;pointer-events:none}.toast.show{animation:pop 1.2s ease both}@keyframes pop{0%{opacity:0;transform:translate(-50%,-40%) scale(.9)}20%{opacity:1;transform:translate(-50%,-50%) scale(1)}75%{opacity:1}100%{opacity:0}}
-@media(max-width:700px){.shell{width:100vw;height:100dvh;min-height:0;max-height:none}.top{top:20px}.topright{gap:6px;flex-direction:column-reverse;align-items:flex-end}.pill,.toggle{padding:8px 11px;font-size:9px}.science{top:auto;bottom:120px;right:18px;max-width:170px;font-size:9px}.hud{bottom:24px;gap:20px}.hint{bottom:24px;font-size:10px}.stat:nth-child(3){display:none}h1{font-size:32px}.dek{max-width:230px;font-size:12px}}
-@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important}}
-</style>
-</head>
-<body><main class="shell"><canvas id="sky" aria-describedby="hint"></canvas>
-<header class="top"><div><div class="brand">FIELD STUDY&nbsp; / &nbsp;01</div><h1>SAFE<br>PILOT</h1><p class="dek">A guardian maths filter bends your flight around danger.</p></div><div class="topright"><span class="pill" id="modeLabel">GUARDIAN ACTIVE</span><button type="button" class="toggle" id="toggle" aria-pressed="true">GUARDIAN <b>ON</b></button></div></header>
-<div class="science"><b>SCIENCE NOTE · arXiv:2610.12324</b>Inspired by Juan Augusto Paredes Salazar, James Usevitch &amp; Ankit Goel. This demo uses iterative per-obstacle half-space projection, not the paper’s spectral-selection method. Educational visualization only; no real-world safety guarantee.</div>
-<section class="hud" aria-live="polite"><div class="stat"><label>DISTANCE</label><strong id="score">0000 <small>m</small></strong></div><div class="stat"><label>FIELD SPEED</label><strong id="speed">1.0 <small>×</small></strong></div><div class="stat"><label>NEAR MISSES</label><strong id="near">00</strong></div></section>
-<div class="hint" id="hint"><em>DRAG TO STEER</em> &nbsp;·&nbsp; WASD / ARROWS<br>Tap anywhere to set a heading</div><div class="toast" id="toast">FLIGHT RECOVERED</div></main>
+html,body{margin:0;height:100%;background:#04050c;overflow:hidden;font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:#eaf6ff;user-select:none;-webkit-user-select:none}
+canvas{position:fixed;inset:0;width:100%;height:100%;touch-action:none;cursor:none}
+.hud{position:fixed;left:0;right:0;top:0;display:flex;justify-content:space-between;padding:12px 18px;pointer-events:none;font-weight:700;letter-spacing:.04em;text-shadow:0 0 14px rgba(80,220,255,.7)}
+.hud small{display:block;font-weight:500;opacity:.6;font-size:11px;letter-spacing:.12em}
+.hud div:nth-child(2){text-align:center}.hud div:last-child{text-align:right}
+.hud b{font-size:26px}
+.msg{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;pointer-events:none;padding:20px;text-shadow:0 0 30px #000}
+.msg h1{margin:0 0 6px;font-size:clamp(34px,8vw,64px);letter-spacing:.14em;background:linear-gradient(90deg,#6af,#7ffbe0,#fda);-webkit-background-clip:text;background-clip:text;color:transparent;text-shadow:none;filter:drop-shadow(0 0 18px rgba(90,220,255,.55))}
+.msg p{margin:4px 0;opacity:.85;max-width:520px}
+.foot{position:fixed;left:0;right:0;bottom:8px;text-align:center;font-size:11px;opacity:.45;pointer-events:none;padding:0 12px}
+</style></head><body>
+<canvas id="c"></canvas>
+<div class="hud"><div><small>SCORE</small><b id="sc">0</b></div><div><small>COMBO</small><b id="cb">x1</b></div><div><small>SWARM</small><b id="sw">0</b></div></div>
+<div class="msg" id="msg"><h1>SAFE PILOT</h1><p>Lead your swarm through the storm. Every drone has a safety filter that slides it around danger, so skim the rocks for combos and grab the stars.</p><p style="opacity:.6">Touch or move to begin</p></div>
+<div class="foot">Velocity safety filter after arXiv 2610.12324 · every drone is projected onto the safe half-space of each obstacle</div>
 <script>
-(()=>{'use strict';const canvas=document.querySelector('#sky'),ctx=canvas.getContext('2d'),shell=document.querySelector('.shell'),toggle=document.querySelector('#toggle'),modeLabel=document.querySelector('#modeLabel'),scoreEl=document.querySelector('#score'),speedEl=document.querySelector('#speed'),nearEl=document.querySelector('#near'),toast=document.querySelector('#toast');let w,h,dpr,ship,rocks=[],particles=[],stars=[],target,guardian=true,dead=false,last=0,elapsed=0,near=0,shake=0,ghost=[],ghostAt=0,keys={};const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
-function resize(){const r=shell.getBoundingClientRect();w=r.width;h=r.height;dpr=Math.min(devicePixelRatio||1,1.6);canvas.width=w*dpr;canvas.height=h*dpr;ctx.setTransform(dpr,0,0,dpr,0,0);if(!ship){ship={x:w*.5,y:h*.62,vx:0,vy:0,r:9};target={x:ship.x,y:ship.y};}stars=Array.from({length:Math.min(100,Math.floor(w*h/9500))},()=>({x:Math.random()*w,y:Math.random()*h,z:.3+Math.random()*.7}));rocks=Array.from({length:Math.max(8,Math.floor(w*h/51000))},()=>newRock(true))}function newRock(initial=false){const r=12+Math.random()*19;return{x:Math.random()*w,y:initial?Math.random()*h:-35,r,vx:(Math.random()-.5)*38,vy:32+Math.random()*48,a:Math.random()*7,spin:(Math.random()-.5)*.6,phase:Math.random()*9}}function pointer(e){const r=canvas.getBoundingClientRect();target={x:e.clientX-r.left,y:e.clientY-r.top};}canvas.addEventListener('pointerdown',e=>{canvas.setPointerCapture(e.pointerId);pointer(e)});canvas.addEventListener('pointermove',e=>{if(e.buttons||e.pointerType==='touch')pointer(e)});window.addEventListener('keydown',e=>{keys[e.key.toLowerCase()]=true;if(['ArrowUp','ArrowDown','ArrowLeft','ArrowRight',' '].includes(e.key))e.preventDefault()});window.addEventListener('keyup',e=>keys[e.key.toLowerCase()]=false);toggle.addEventListener('click',()=>{guardian=!guardian;toggle.setAttribute('aria-pressed',guardian);toggle.innerHTML=`GUARDIAN <b>${guardian?'ON':'OFF'}</b>`;modeLabel.textContent=guardian?'GUARDIAN ACTIVE':'RAW FLIGHT';modeLabel.style.color=guardian?'#63f2df':'#ffb957'});window.addEventListener('resize',resize);resize();
-function clamp(v,a,b){return Math.max(a,Math.min(b,v))}function safeVelocity(dx,dy,dt){let vx=dx,vy=dy;const constraints=[];for(const o of rocks){let rx=ship.x-o.x,ry=ship.y-o.y,dist=Math.hypot(rx,ry),margin=o.r+ship.r+30;if(dist<margin+95){let nx=rx/(dist||1),ny=ry/(dist||1),ov=o.vx*nx+o.vy*ny;constraints.push({nx,ny,b:Math.max(0,(margin-dist)*2.15+ov),dist,margin});}}for(let pass=0;pass<4;pass++){for(const c of constraints){let dot=vx*c.nx+vy*c.ny;if(dot<c.b){vx+=(c.b-dot)*c.nx;vy+=(c.b-dot)*c.ny;}}}return{vx:clamp(vx,-220,220),vy:clamp(vy,-220,220),constraints}}
-function burst(x,y,color,n=10){for(let i=0;i<n;i++){let a=Math.random()*Math.PI*2,s=20+Math.random()*110;particles.push({x,y,vx:Math.cos(a)*s,vy:Math.sin(a)*s,life:.35+Math.random()*.55,color,r:1+Math.random()*2})}}function restart(){ghost=guardian?[]:ghost;ship={x:w*.5,y:h*.62,vx:0,vy:0,r:9};target={x:ship.x,y:ship.y};elapsed=0;near=0;dead=false;particles=[];if(ghost.length){ghostAt=performance.now();toast.classList.remove('show');void toast.offsetWidth;toast.textContent='GUARDIAN GHOST';toast.classList.add('show')}}
-function draw(t){const dt=Math.min(.035,(t-last)/1000||.016);last=t;elapsed+=dt;const speed=1+Math.min(2.2,elapsed/42);speedEl.innerHTML=speed.toFixed(1)+' <small>×</small>';if(!dead){let tx=target.x,ty=target.y;if(keys.a||keys.arrowleft)tx-=180*dt;if(keys.d||keys.arrowright)tx+=180*dt;if(keys.w||keys.arrowup)ty-=180*dt;if(keys.s||keys.arrowdown)ty+=180*dt;target.x=clamp(tx,24,w-24);target.y=clamp(ty,80,h-30);let wantX=clamp((target.x-ship.x)*3,-190,190),wantY=clamp((target.y-ship.y)*3,-190,190);let filtered=guardian?safeVelocity(wantX,wantY,dt):{vx:wantX,vy:wantY,constraints:[]};ship.vx+=(filtered.vx-ship.vx)*Math.min(1,dt*5.5);ship.vy+=(filtered.vy-ship.vy)*Math.min(1,dt*5.5);ship.x=clamp(ship.x+ship.vx*dt,18,w-18);ship.y=clamp(ship.y+ship.vy*dt,90,h-28);for(const o of rocks){o.y+=o.vy*speed*dt;o.x+=o.vx*dt;o.a+=o.spin*dt;if(o.x<o.r||o.x>w-o.r)o.vx*=-1;if(o.y>h+40)Object.assign(o,newRock());const d=Math.hypot(ship.x-o.x,ship.y-o.y);if(d<o.r+ship.r+12&&d>o.r+ship.r+4){near++;burst(ship.x,ship.y,'#ffb957',2)}if(d<o.r+ship.r){if(!guardian){dead=true;shake=12;ghost=ghost.concat([{x:ship.x,y:ship.y}]);burst(ship.x,ship.y,'#ff5e73',24)}else{const nx=(ship.x-o.x)/(d||1),ny=(ship.y-o.y)/(d||1);ship.x=o.x+nx*(o.r+ship.r+2);ship.y=o.y+ny*(o.r+ship.r+2);burst(ship.x,ship.y,'#63f2df',4)}}}if(guardian){ghost.push({x:ship.x,y:ship.y});if(ghost.length>300)ghost.shift()}}
-ctx.clearRect(0,0,w,h);if(!reduced){for(const s of stars){s.y+=s.z*speed*dt*11;if(s.y>h)s.y=0;ctx.fillStyle=`rgba(142,190,200,${.16+s.z*.34})`;ctx.fillRect(s.x,s.y,1.3*s.z,1.3*s.z)}}let sx=shake?(Math.random()-.5)*shake:0;shake*=.84;ctx.save();ctx.translate(sx,0);
-// ghost flight trace
-if(ghost.length>1&&dead){ctx.beginPath();ghost.slice(-130).forEach((p,i)=>i?ctx.lineTo(p.x,p.y):ctx.moveTo(p.x,p.y));ctx.strokeStyle='rgba(99,242,223,.42)';ctx.lineWidth=2;ctx.setLineDash([4,6]);ctx.stroke();ctx.setLineDash([])}
-for(const o of rocks){ctx.save();ctx.translate(o.x,o.y);ctx.rotate(o.a);ctx.beginPath();for(let i=0;i<9;i++){let a=i*Math.PI*2/9,rr=o.r*(.78+.22*Math.sin(i*7+o.phase));i?ctx.lineTo(Math.cos(a)*rr,Math.sin(a)*rr):ctx.moveTo(Math.cos(a)*rr,Math.sin(a)*rr)}ctx.closePath();ctx.fillStyle='#172b35';ctx.strokeStyle='#49616a';ctx.lineWidth=1.3;ctx.shadowColor='#183b48';ctx.shadowBlur=10;ctx.fill();ctx.stroke();ctx.restore();if(guardian){let d=Math.hypot(ship.x-o.x,ship.y-o.y);if(d<o.r+ship.r+125){ctx.beginPath();ctx.arc(o.x,o.y,o.r+ship.r+30,0,Math.PI*2);ctx.strokeStyle='rgba(255,185,87,.12)';ctx.lineWidth=1;ctx.setLineDash([3,7]);ctx.stroke();ctx.setLineDash([])}}}
-// filtered direction and active half-space rays
-if(!dead){let desired={vx:clamp((target.x-ship.x)*3,-190,190),vy:clamp((target.y-ship.y)*3,-190,190)},f=guardian?safeVelocity(desired.vx,desired.vy,dt):desired;if(guardian){for(const c of f.constraints){let len=35;ctx.beginPath();ctx.moveTo(ship.x,ship.y);ctx.lineTo(ship.x+c.nx*len,ship.y+c.ny*len);ctx.strokeStyle='rgba(255,185,87,.75)';ctx.lineWidth=2;ctx.shadowColor='#ffb957';ctx.shadowBlur=10;ctx.stroke();let tx=ship.x+c.nx*c.margin,ty=ship.y+c.ny*c.margin;ctx.beginPath();ctx.arc(tx,ty,3,0,Math.PI*2);ctx.fillStyle='#ffb957';ctx.fill()}}ctx.beginPath();ctx.moveTo(ship.x,ship.y);ctx.lineTo(ship.x+f.vx*.38,ship.y+f.vy*.38);ctx.strokeStyle=guardian?'#63f2df':'#ffb957';ctx.lineWidth=2;ctx.shadowColor=ctx.strokeStyle;ctx.shadowBlur=15;ctx.stroke();ctx.beginPath();ctx.arc(target.x,target.y,7+Math.sin(t/210)*2,0,Math.PI*2);ctx.strokeStyle='rgba(99,242,223,.45)';ctx.lineWidth=1;ctx.stroke()}
-// ship
-ctx.save();ctx.translate(ship.x,ship.y);ctx.rotate(Math.atan2(ship.vy,ship.vx)+Math.PI/2);ctx.beginPath();ctx.moveTo(0,-13);ctx.lineTo(9,10);ctx.lineTo(0,6);ctx.lineTo(-9,10);ctx.closePath();ctx.fillStyle=guardian?'#c9fffa':'#ffe1b5';ctx.shadowColor=guardian?'#63f2df':'#ffb957';ctx.shadowBlur=22;ctx.fill();ctx.restore();
-for(const p of particles){p.x+=p.vx*dt;p.y+=p.vy*dt;p.life-=dt;ctx.globalAlpha=clamp(p.life,0,1);ctx.fillStyle=p.color;ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,7);ctx.fill()}ctx.globalAlpha=1;particles=particles.filter(p=>p.life>0);ctx.restore();scoreEl.innerHTML=String(Math.floor(elapsed*speed*12)).padStart(4,'0')+' <small>m</small>';nearEl.textContent=String(Math.min(99,Math.floor(near/2))).padStart(2,'0');if(dead){ctx.fillStyle='rgba(5,12,17,.44)';ctx.fillRect(0,0,w,h);if(t-ghostAt>1300){ctx.fillStyle='#e9f5f5';ctx.font='700 12px system-ui';ctx.textAlign='center';ctx.fillText('TAP TO RETRY  ·  SWITCH GUARDIAN ON TO SEE THE GHOST FLIGHT',w/2,h*.52)}}requestAnimationFrame(draw)}canvas.addEventListener('pointerdown',()=>{if(dead)restart()});requestAnimationFrame(draw);
+(()=>{
+"use strict";
+const cv=document.getElementById('c'),g=cv.getContext('2d');
+let W=0,H=0,U=1,DPR=1;
+function resize(){DPR=Math.min(devicePixelRatio||1,2);W=cv.width=Math.round(innerWidth*DPR);H=cv.height=Math.round(innerHeight*DPR);U=Math.min(W,H)/800*(innerWidth<600?1.15:1);}
+addEventListener('resize',resize);resize();
+const $=id=>document.getElementById(id);
+let best=0;try{best=+localStorage.getItem('safe-pilot-best')||0}catch(e){}
+const rnd=(a,b)=>a+Math.random()*(b-a);
+let drones,rocks,stars,parts,floats,arcs,score,combo,comboT,t,wave,spawnT,starT,state='attract',tx,ty,px=0,py=0,have=false,shake=0;
+function reset(){drones=[];for(let i=0;i<6;i++)drones.push({x:W/2+Math.cos(i)*40*U,y:H*.7+Math.sin(i)*40*U,vx:0,vy:0,h:rnd(0,6)});
+ rocks=[];stars=[];parts=[];floats=[];arcs=[];score=0;combo=1;comboT=0;t=0;wave=1;spawnT=0;starT=2;tx=W/2;ty=H*.6;shake=0;}
+reset();
+function spawnRock(){
+ const big=Math.random()<.18,r=(big?rnd(34,52):rnd(12,28))*U,side=(Math.random()*4)|0;let x,y;
+ const m=r+20;if(side===0){x=rnd(0,W);y=-m}else if(side===1){x=W+m;y=rnd(0,H)}else if(side===2){x=rnd(0,W);y=H+m}else{x=-m;y=rnd(0,H)}
+ const a=Math.atan2(rnd(.2,.8)*H-y,rnd(.2,.8)*W-x),sp=(big?rnd(40,80):rnd(70,150))*U*(1+wave*.07);
+ rocks.push({x,y,r,vx:Math.cos(a)*sp,vy:Math.sin(a)*sp,bullet:false,hue:big?330:rnd(15,40),ph:rnd(0,6)});
+ if(wave>=3&&Math.random()<.18+wave*.02){const bx=x,by=y,a2=Math.atan2(ty-by,tx-bx),s2=(230+wave*12)*U;rocks.push({x:bx,y:by,r:6*U,vx:Math.cos(a2)*s2,vy:Math.sin(a2)*s2,bullet:true,hue:55,ph:0});}
+}
+function boom(x,y,hue,n){for(let i=0;i<n;i++){const a=rnd(0,6.283),s=rnd(40,320)*U;parts.push({x,y,vx:Math.cos(a)*s,vy:Math.sin(a)*s,l:rnd(.4,1),m:1,hue});}}
+function floatText(x,y,s,hue){floats.push({x,y,s,l:1,hue});}
+function step(dt){
+ t+=dt;const run=state==='play'||state==='attract';
+ // target
+ if(state==='attract'||!have){tx=W/2+Math.cos(t*.5)*W*.3;ty=H*.55+Math.sin(t*.8)*H*.22;}else{tx+=(px-tx)*Math.min(1,dt*14);ty+=(py-ty)*Math.min(1,dt*14);}
+ wave=1+Math.floor(t/14);
+ spawnT-=dt;if(spawnT<=0){spawnRock();spawnT=Math.max(.22,.9-wave*.06)*rnd(.6,1.3);}
+ starT-=dt;if(starT<=0&&stars.length<3){stars.push({x:rnd(.1,.9)*W,y:rnd(.15,.85)*H,ph:rnd(0,6),l:9});starT=rnd(2.5,4.5);}
+ for(const r of rocks){r.x+=r.vx*dt;r.y+=r.vy*dt;}
+ rocks=rocks.filter(r=>r.x>-200&&r.x<W+200&&r.y>-200&&r.y<H+200);
+ const n=drones.length,vmax=560*U,alpha=9,margin=9*U,dr=6*U;arcs.length=0;
+ for(let i=0;i<n;i++){const d=drones[i];
+  const ang=i/n*6.283+t*.7,rad=(22+9*Math.sqrt(n))*U*(.8+.2*Math.sin(t*1.3+i));
+  let vx=(tx+Math.cos(ang)*rad-d.x)*7,vy=(ty+Math.sin(ang)*rad-d.y)*7;
+  // separation
+  for(let j=0;j<n;j++)if(j!==i){const dx=d.x-drones[j].x,dy=d.y-drones[j].y,q=Math.hypot(dx,dy)||1;if(q<26*U){vx+=dx/q*(26*U-q)*6;vy+=dy/q*(26*U-q)*6;}}
+  let sp=Math.hypot(vx,vy);if(sp>vmax){vx*=vmax/sp;vy*=vmax/sp;}
+  const wantX=vx,wantY=vy;
+  // SAFETY FILTER: project the velocity onto the intersection of safe half-spaces (3 Gauss-Seidel passes)
+  for(let pass=0;pass<3;pass++){
+   for(const o of rocks){const dx=d.x-o.x,dy=d.y-o.y,dist=Math.hypot(dx,dy)||1e-3,h=dist-(o.r+dr+margin);if(h>90*U)continue;
+    const nx=dx/dist,ny=dy/dist,cons=(vx-o.vx)*nx+(vy-o.vy)*ny+alpha*h;   // need >= 0
+    if(cons<0){vx-=cons*nx;vy-=cons*ny;if(pass===0)arcs.push({x:o.x,y:o.y,nx,ny,r:o.r,s:Math.min(1,-cons/(300*U)+.25),h});}}
+   // arena walls as half-spaces
+   const pad=14*U;let c;
+   c=vx+alpha*(d.x-pad);if(c<0)vx-=c;c=-vx+alpha*(W-pad-d.x);if(c<0)vx+=c;
+   c=vy+alpha*(d.y-pad);if(c<0)vy-=c;c=-vy+alpha*(H-pad-d.y);if(c<0)vy+=c;
+  }
+  d.fx=vx-wantX;d.fy=vy-wantY;d.vx=vx;d.vy=vy;d.x+=vx*dt;d.y+=vy*dt;
+ }
+ // near-miss combos & collisions
+ for(let i=drones.length-1;i>=0;i--){const d=drones[i];let dead=false;
+  for(const o of rocks){const dd=Math.hypot(d.x-o.x,d.y-o.y)-o.r-dr;
+   if(dd<0){dead=true;boom(d.x,d.y,o.hue,28);shake=.5;break;}
+   if(dd<7*U&&!o.near&&state==='play'){o.near=true;combo=Math.min(20,combo+1);comboT=2.6;const pts=10*combo;score+=pts;floatText(d.x,d.y-12*U,'+'+pts,190);}}
+  if(dead&&state==='play'){drones.splice(i,1);combo=1;}else if(dead&&state==='attract'){d.x=W/2;d.y=H*.7;}}
+ if(comboT>0){comboT-=dt;if(comboT<=0)combo=1;}
+ // stars
+ for(let i=stars.length-1;i>=0;i--){const s=stars[i];s.l-=dt;let got=false;
+  for(const d of drones)if(Math.hypot(d.x-s.x,d.y-s.y)<20*U){got=true;break;}
+  if(got){stars.splice(i,1);boom(s.x,s.y,50,22);if(drones.length<28){const b=drones[0]||{x:s.x,y:s.y};drones.push({x:s.x,y:s.y,vx:0,vy:0,h:rnd(0,6)});}score+=50*combo;floatText(s.x,s.y,'+SWARM',50);}
+  else if(s.l<=0)stars.splice(i,1);}
+ if(state==='play'){score+=dt*10*wave;}
+ for(const p of parts){p.x+=p.vx*dt;p.y+=p.vy*dt;p.vx*=.97;p.vy*=.97;p.l-=dt;}parts=parts.filter(p=>p.l>0);
+ for(const f of floats){f.y-=40*U*dt;f.l-=dt*.9;}floats=floats.filter(f=>f.l>0);
+ shake=Math.max(0,shake-dt);
+ if(state==='play'&&drones.length===0){state='over';if(score>best){best=Math.floor(score);try{localStorage.setItem('safe-pilot-best',best)}catch(e){}}
+  $('msg').innerHTML='<h1>SWARM LOST</h1><p>Score <b>'+Math.floor(score)+'</b> · Best <b>'+Math.floor(best)+'</b> · Wave '+wave+'</p><p style="opacity:.6">Tap to fly again</p>';$('msg').style.display='flex';overT=0;}
+}
+let overT=0;
+function hsl(h,s,l,a){return 'hsla('+h+','+s+'%,'+l+'%,'+(a==null?1:a)+')';}
+function draw(){
+ g.globalCompositeOperation='source-over';g.fillStyle='rgba(4,5,12,.28)';g.fillRect(0,0,W,H);
+ g.save();if(shake>0)g.translate(rnd(-1,1)*shake*14*U,rnd(-1,1)*shake*14*U);
+ g.globalCompositeOperation='lighter';
+ // faint grid
+ g.strokeStyle='rgba(60,110,200,.05)';g.lineWidth=1;const gs=70*U;g.beginPath();for(let x=(t*10*U)%gs;x<W;x+=gs){g.moveTo(x,0);g.lineTo(x,H);}for(let y=0;y<H;y+=gs){g.moveTo(0,y);g.lineTo(W,y);}g.stroke();
+ // rocks
+ for(const o of rocks){
+  if(o.bullet){const gr=g.createRadialGradient(o.x,o.y,0,o.x,o.y,o.r*4);gr.addColorStop(0,'rgba(255,240,150,1)');gr.addColorStop(1,'rgba(255,120,40,0)');g.fillStyle=gr;g.beginPath();g.arc(o.x,o.y,o.r*4,0,6.283);g.fill();continue;}
+  const gr=g.createRadialGradient(o.x,o.y,o.r*.2,o.x,o.y,o.r*1.9);gr.addColorStop(0,hsl(o.hue,90,55,.35));gr.addColorStop(.5,hsl(o.hue,90,45,.18));gr.addColorStop(1,hsl(o.hue,90,40,0));
+  g.fillStyle=gr;g.beginPath();g.arc(o.x,o.y,o.r*1.9,0,6.283);g.fill();
+  g.strokeStyle=hsl(o.hue,95,66,.95);g.lineWidth=2.5*U;g.beginPath();
+  for(let k=0;k<=14;k++){const a=k/14*6.283,rr=o.r*(1+.07*Math.sin(a*3+o.ph+t*1.5));const x=o.x+Math.cos(a)*rr,y=o.y+Math.sin(a)*rr;k?g.lineTo(x,y):g.moveTo(x,y);}g.closePath();g.stroke();}
+ // safety arcs (the filter, made visible)
+ for(const a of arcs){const base=Math.atan2(a.ny,a.nx),R=a.r+9*U+6*U;g.strokeStyle='rgba(110,255,230,'+(.25+.6*a.s)+')';g.lineWidth=(2+4*a.s)*U;g.beginPath();g.arc(a.x,a.y,R,base-.5,base+.5);g.stroke();}
+ // stars
+ for(const s of stars){const p=.6+.4*Math.sin(t*5+s.ph),r=(10+4*p)*U;const gr=g.createRadialGradient(s.x,s.y,0,s.x,s.y,r*3);gr.addColorStop(0,'rgba(255,230,120,.9)');gr.addColorStop(1,'rgba(255,170,40,0)');g.fillStyle=gr;g.beginPath();g.arc(s.x,s.y,r*3,0,6.283);g.fill();
+  g.strokeStyle='rgba(255,240,170,.95)';g.lineWidth=2*U;g.beginPath();for(let k=0;k<10;k++){const a=k/10*6.283-1.57+t,rr=k%2?r*.45:r;const x=s.x+Math.cos(a)*rr,y=s.y+Math.sin(a)*rr;k?g.lineTo(x,y):g.moveTo(x,y);}g.closePath();g.stroke();}
+ // drones
+ for(const d of drones){const sp=Math.hypot(d.vx,d.vy),a=Math.atan2(d.vy,d.vx),hue=170+d.h*14;
+  g.strokeStyle=hsl(hue,100,65,.5);g.lineWidth=3*U;g.beginPath();g.moveTo(d.x,d.y);g.lineTo(d.x-d.vx*.05,d.y-d.vy*.05);g.stroke();
+  const gr=g.createRadialGradient(d.x,d.y,0,d.x,d.y,16*U);gr.addColorStop(0,hsl(hue,100,80,.9));gr.addColorStop(1,hsl(hue,100,55,0));g.fillStyle=gr;g.beginPath();g.arc(d.x,d.y,16*U,0,6.283);g.fill();
+  g.fillStyle='#fff';g.beginPath();g.arc(d.x,d.y,3*U,0,6.283);g.fill();
+  if(Math.hypot(d.fx||0,d.fy||0)>20*U){g.strokeStyle='rgba(140,255,230,.8)';g.lineWidth=1.5*U;g.beginPath();g.arc(d.x,d.y,9*U,0,6.283);g.stroke();}}
+ // leader reticle
+ g.strokeStyle='rgba(180,240,255,.55)';g.lineWidth=1.5*U;g.beginPath();g.arc(tx,ty,9*U,0,6.283);g.moveTo(tx-16*U,ty);g.lineTo(tx-5*U,ty);g.moveTo(tx+5*U,ty);g.lineTo(tx+16*U,ty);g.stroke();
+ for(const p of parts){g.fillStyle=hsl(p.hue,100,65,Math.min(1,p.l*1.5));g.beginPath();g.arc(p.x,p.y,2.4*U,0,6.283);g.fill();}
+ g.globalCompositeOperation='source-over';g.textAlign='center';g.font='bold '+Math.round(16*U)+'px system-ui,sans-serif';
+ for(const f of floats){g.fillStyle=hsl(f.hue,100,75,Math.min(1,f.l*1.4));g.fillText(f.s,f.x,f.y);}
+ g.restore();
+ $('sc').textContent=Math.floor(score);$('cb').textContent='x'+combo;$('sw').textContent=drones.length;
+}
+let last=performance.now();
+function loop(now){const dt=Math.min(.033,(now-last)/1000);last=now;step(dt);draw();requestAnimationFrame(loop);}
+requestAnimationFrame(loop);
+function begin(){if(state==='attract'){state='play';reset();state='play';$('msg').style.display='none';}else if(state==='over'&&overT>.6){reset();state='play';$('msg').style.display='none';}}
+function move(e){px=e.clientX*DPR;py=e.clientY*DPR;have=true;}
+cv.addEventListener('pointermove',move);
+cv.addEventListener('pointerdown',e=>{move(e);tx=px;ty=py;begin();});
+addEventListener('keydown',e=>{if(e.key===' '||e.key==='Enter')begin();});
+setInterval(()=>{if(state==='over')overT+=.1;},100);
+window.__pilot={get state(){return state},get drones(){return drones.length}};
+if(location.hash==='#play'){state='play';reset();state='play';have=true;px=W/2;py=H*.6;$('msg').style.display='none';}
 })();
 </script></body></html>
