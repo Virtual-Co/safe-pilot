@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><meta name="theme-color" content="#071018">
@@ -9,8 +9,8 @@
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important}}
 </style>
 </head>
-<body><main class="shell" aria-label="Safe Pilot arcade simulation"><canvas id="sky" aria-label="Steer the ship through the asteroid field"></canvas>
-<header class="top"><div><div class="brand">FIELD STUDY&nbsp; / &nbsp;01</div><h1>SAFE<br>PILOT</h1><p class="dek">A guardian maths filter bends your flight around danger.</p></div><div class="topright"><span class="pill" id="modeLabel">GUARDIAN ACTIVE</span><button class="toggle" id="toggle" aria-pressed="true">GUARDIAN <b>ON</b></button></div></header>
+<body><main class="shell"><canvas id="sky" aria-describedby="hint"></canvas>
+<header class="top"><div><div class="brand">FIELD STUDY&nbsp; / &nbsp;01</div><h1>SAFE<br>PILOT</h1><p class="dek">A guardian maths filter bends your flight around danger.</p></div><div class="topright"><span class="pill" id="modeLabel">GUARDIAN ACTIVE</span><button type="button" class="toggle" id="toggle" aria-pressed="true">GUARDIAN <b>ON</b></button></div></header>
 <div class="science"><b>SCIENCE NOTE · arXiv:2610.12324</b>Inspired by Juan Augusto Paredes Salazar, James Usevitch &amp; Ankit Goel. This demo uses iterative per-obstacle half-space projection, not the paper’s spectral-selection method. Educational visualization only; no real-world safety guarantee.</div>
 <section class="hud" aria-live="polite"><div class="stat"><label>DISTANCE</label><strong id="score">0000 <small>m</small></strong></div><div class="stat"><label>FIELD SPEED</label><strong id="speed">1.0 <small>×</small></strong></div><div class="stat"><label>NEAR MISSES</label><strong id="near">00</strong></div></section>
 <div class="hint" id="hint"><em>DRAG TO STEER</em> &nbsp;·&nbsp; WASD / ARROWS<br>Tap anywhere to set a heading</div><div class="toast" id="toast">FLIGHT RECOVERED</div></main>
